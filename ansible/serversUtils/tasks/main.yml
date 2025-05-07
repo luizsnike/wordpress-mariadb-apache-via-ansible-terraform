@@ -1,0 +1,61 @@
+---
+# tasks file for serversUtils
+- name: 'Set hostname'
+  hostname:
+    name: "{{ hostname }}"
+  notify:
+    - 'CleanHostsFileAll'
+    - 'addInHostsFileDebian'
+    - 'addInHostsFileRedHat'
+
+- name: 'Install Default Softwares Utils - Family Debian'
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - vim
+      - htop
+      - zip
+      - unzip
+      - wget
+      - curl
+      - python3
+    state: latest
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: 'Install Default Softwares Utils - Family RedHat'
+  yum:
+    update_cache: yes
+    name:
+      - vim
+      - htop
+      - zip
+      - unzip
+      - wget
+      - curl
+      - python3
+      - yum-utils
+    state: latest
+  when: (ansible_facts['os_family'] == "RedHat")
+  notify: 'EnableYumUtils'
+
+- name: 'Allow HTTP Traffic - Family RedHat'
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'Allow HTTPS Traffic - Family RedHat'
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'Disable SELinux - Family RedHat'
+  selinux:
+    state: disabled
+  when: (ansible_facts['os_family'] == "RedHat")
+  notify:
+    - 'RestartServer'

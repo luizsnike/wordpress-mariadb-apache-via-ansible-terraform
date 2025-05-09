@@ -2,7 +2,7 @@
 # handlers file for 4_apache2
 
 #Any
-- name: 'addInHostsFile'
+- name: 'AnySO : Adicionando entrada do Vhost no arquivo Hosts'
   lineinfile:
     path: /etc/hosts
     line: "{{ item }}"
@@ -12,36 +12,37 @@
     - "{{inventory_hostname}} {{ site_domain }}"
 
 #Debian
-- name: 'enableApache2'
+- name: 'Debian : Habilitando autoinicio do Apache2'
   service:
     name: apache2
     enabled: yes
+  when: (ansible_facts['os_family'] == "Debian")
 
-- name: 'enableSiteApache2'
-  command: a2ensite {{site_log}}.conf
-
-- name: 'disableSiteDefaultApache2'
+- name: 'Debian : Desabilitando o Vhost Default do Apache2'
   command: a2dissite 000-default.conf
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: 'restartApache2'
+- name: 'Debian : Reiniciando o serviço do Apache2'
   service:
     name: apache2
     state: restarted
     enabled: yes
+  when: (ansible_facts['os_family'] == "Debian")
 
 #RedHat
-- name: 'enableHttpd'
+- name: 'RedHat : Habilitando autoinicio do Httpd'
   service:
     name: httpd
     enabled: yes
+  when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'RestartHttpd'
+- name: 'RedHat : Reiniciando o serviço do Httpd'
   service:
     name: httpd
     state: restarted
+  when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'addInHttpdFile'
+- name: 'RedHat : Habilitando Vhost na configuraçao do Httpd'
   lineinfile:
     path: /etc/httpd/conf/httpd.conf
     line: "Include vhost.d/*.conf"

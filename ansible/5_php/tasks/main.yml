@@ -37,4 +37,4 @@
     state: present
   when: (ansible_facts['os_family'] == "RedHat")
   notify:
-    - ReiniciaHttpd
+    - 'RedHat : Task PHP : Reiniciar o serviço do Httpd'

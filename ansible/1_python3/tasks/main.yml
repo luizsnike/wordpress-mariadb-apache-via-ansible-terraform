@@ -1,6 +1,6 @@
 ---
 # tasks file for 1_python3
-- name: 'Install Python3 - Family Debian'
+- name: 'Debian : Instalando Python3 e dependências'
   apt:
     pkg: "{{ item }}"
     update-cache: yes
@@ -16,7 +16,7 @@
     - pkg-config
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: 'Install Python3 - Family RedHat'
+- name: 'RedHat : Instalando Python3 e dependências'
   yum:
     pkg: "{{ item }}"
     state: latest

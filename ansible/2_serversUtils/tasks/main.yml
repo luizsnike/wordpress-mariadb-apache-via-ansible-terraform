@@ -1,14 +1,14 @@
 ---
 # tasks file for 2_serversUtils
-- name: 'Set hostname'
+- name: 'AnySO : Configurando o Hostname dos servidores'
   hostname:
     name: "{{ hostname }}"
   notify:
-    - 'CleanHostsFileAll'
-    - 'addInHostsFileDebian'
-    - 'addInHostsFileRedHat'
+    - 'AnySO : Limpando arquivo  Hosts do SO'
+    - 'Debian : Modificando arquivo Hosts do SO'
+    - 'RedHat : Modificando arquivo Hosts do SO'
 
-- name: 'Install Default Softwares Utils - Family Debian'
+- name: 'Debian : Instalando pacotes Uteis no servidor'
   apt:
     update_cache: yes
     cache_valid_time: 3600
@@ -23,7 +23,7 @@
     state: latest
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: 'Install Default Softwares Utils - Family RedHat'
+- name: 'RedHat : Instalando pacotes Uteis no servidor'
   yum:
     update_cache: yes
     name:
@@ -37,23 +37,25 @@
     state: latest
   when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'Allow HTTP Traffic - Family RedHat'
+- name: 'RedHat : Liberando o Trafego HTTP no firewall do sistema'
   firewalld:
     service: http
     permanent: yes
     state: enabled
   when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'Allow HTTPS Traffic - Family RedHat'
+- name: 'RedHat : Liberando o Trafego HTTPS no firewall do sistema'
   firewalld:
     service: https
     permanent: yes
     state: enabled
   when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'Disable SELinux - Family RedHat'
+- name: 'RedHat : Desabilitando o SELinux do sistema'
   selinux:
     state: disabled
   when: (ansible_facts['os_family'] == "RedHat")
-  notify:
-    - 'RestartServer'
+
+- name: 'RedHat : Reiniciando para aplicar a alteração no SELinux'
+  reboot:
+  when: (ansible_facts['os_family'] == "RedHat")

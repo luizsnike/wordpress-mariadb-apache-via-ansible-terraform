@@ -1,6 +1,6 @@
 ---
 # handlers file for 5_php
-- name: 'ReiniciaHttpd'
+- name: 'RedHat : Task PHP : Reiniciar o serviço do Httpd'
   service:
     name: httpd
     state: restarted

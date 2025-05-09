@@ -1,6 +1,6 @@
 ---
 # handlers file for 6_wordpress
-- name: 'SetPermissionWpRedHat'
+- name: 'RedHat : Configurando permissões da pasta do site.'
   file:
     path: "{{ site_folder }}/wordpress"
     state: directory
@@ -9,7 +9,7 @@
     recurse: yes
   when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'SetPermissionWpDebian'
+- name: 'Debian : Configurando permissões da pasta do site.'
   file:
     path: "{{ site_folder }}/wordpress"
     state: directory
@@ -17,3 +17,6 @@
     group: www-data
     recurse: yes
   when: (ansible_facts['os_family'] == "Debian")
+
+- name: 'AnySO - Reinicialização Final'
+  reboot:

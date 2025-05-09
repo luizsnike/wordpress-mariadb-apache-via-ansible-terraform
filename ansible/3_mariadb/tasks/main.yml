@@ -1,7 +1,7 @@
 ---
 # tasks file for 3_mariadb
 
-- name: 'Install MariaDB Server - Family RedHat'
+- name: 'RedHat : Instalando o MariaDb Server'
   yum:
     update_cache: yes
     name:
@@ -9,7 +9,7 @@
     state: present
   when: (ansible_facts['os_family'] == "RedHat")
 
-- name: 'Install MariaDB Server - Family Debian'
+- name: 'Debian : Instalando o MariaDb Server'
   apt:
     update_cache: yes
     name:
@@ -17,13 +17,13 @@
     state: present
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: 'Start MariadDB Server'
+- name: 'AnySO : Iniciando o MariaDb Server'
   service:
     name: 'mariadb'
     state: started
     enabled: yes
 
-- name: "Criando um banco de dados para ser utilizado pelo WordPress - Family Debian"
+- name: "Debian : Criando um Banco de Dados para ser utilizado pelo WordPress"
   mysql_db:
     login_unix_socket: "/var/run/mysqld/mysqld.sock"
     name: "{{ db_wp_name }}"
@@ -32,7 +32,7 @@
   when: (ansible_facts[ 'os_family'] == "Debian")
   become: yes
 
-- name: "Criando um banco de dados para ser utilizado pelo WordPress - Family RedHat"
+- name: "RedHat : Criando um Banco de Dados para ser utilizado pelo WordPress"
   mysql_db:
     login_unix_socket: "/var/lib/mysql/mysql.sock"
     name: "{{ db_wp_name }}"
@@ -41,7 +41,7 @@
   when: (ansible_facts[ 'os_family'] == "RedHat")
   become: yes
 
-- name: "Create user with password, all database privileges in database - Family Debian"
+- name: "Debian : Criando o Usuário e seus Privilégios no Banco de Dados"
   mysql_user:
     login_user: root
     host: localhost
@@ -53,7 +53,7 @@
   when: (ansible_facts[ 'os_family'] == "Debian")
   become: yes
 
-- name: "Removes all anonymous user accounts - Family Debian"
+- name: "Debian : Removendo Usuários Anonymous do Banco de Dados"
   mysql_user:
     login_unix_socket: "/var/run/mysqld/mysqld.sock"
     name: ''
@@ -61,7 +61,7 @@
     state: absent
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: "Create user with password, all database privileges in database - Family RedHat"
+- name: "RedHat : Criando o Usuário e seus Privilégios no Banco de Dados"
   mysql_user:
     login_user: root
     host: localhost
@@ -72,7 +72,7 @@
     state: present
   when: (ansible_facts[ 'os_family'] == "RedHat")
 
-- name: "Removes all anonymous user accounts - Family RedHat"
+- name: "RedHat : Removendo Usuários Anonymous do Banco de Dados"
   mysql_user:
     login_unix_socket: "/var/lib/mysql/mysql.sock"
     name: ''

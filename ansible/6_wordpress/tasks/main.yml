@@ -1,43 +1,29 @@
 ---
 # tasks file for 6_wordpress
 
-- name: "Criando Pasta do Site"
+- name: "AnySO : Criando a pasta para o site"
   file:
     path: "{{ site_folder }}"
     state: directory
     mode: 0755
 
-- name: 'Baixando e Descompactado'
+- name: 'AnySO : Baixando e Descompactando o Wordpress na pasta do site'
   unarchive:
     src: https://wordpress.org/latest.tar.gz
     dest: "{{ site_folder }}"
     remote_src: yes
   notify:
-    - 'SetPermissionWpRedHat'
-    - 'SetPermissionWpDebian'
+    - 'RedHat : Configurando permissões da pasta do site.'
+    - 'Debian : Configurando permissões da pasta do site.'
 
-#- name: 'Download WordPress'
-#  get_url:
-#    url: https://wordpress.org/latest.tar.gz
-#    dest: /tmp/wordpress.tar.gz
-
-#- name: 'Descompactando Wordpress'
-#  unarchive:
-#    src: /tmp/wordpress.tar.gz
-#    dest: "{{ site_folder }}"
-#    remote_src: yes
-#  notify:
-#    - 'SetPermissionWpRedHat'
-#    - 'SetPermissionWpDebian'
-
-- name: "Copiando o WP-CONFIG"
+- name: "AnySO : Copiando o arquivo de configuração do Wordpress para o local correto"
   copy:
     src: "{{ site_folder }}/wordpress/wp-config-sample.php"
     dest: "{{ site_folder }}/wordpress/wp-config.php"
     remote_src: yes
   become: yes
 
-- name: 'Configurando o WP-CONFIG com os dados do banco de dados'
+- name: "AnySO : Alterando o arquivo de configuração do Wordpress com os valores corretos"
   replace:
     path: "{{ site_folder }}/wordpress/wp-config.php"
     regexp: "{{ item.regex }}"
@@ -49,6 +35,5 @@
     - { regex: 'password_here', value: "{{ db_wp_password }}"}
     - { regex: 'localhost', value: "{{ db_wp_host }}"}
   become: yes
-
-- name: 'Restarting Server para Conclusão'
-  reboot:
+  notify:
+    - 'AnySO - Reinicialização Final'

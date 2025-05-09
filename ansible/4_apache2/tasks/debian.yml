@@ -1,6 +1,6 @@
 ---
 # debian file for 4_apache2
-- name: "Instalando o Apache2 - Family Debian"
+- name: "Debian : Instalando o Apache2"
   apt:
     name:
     - apache2
@@ -11,9 +11,9 @@
     state: latest
   when: (ansible_facts['os_family'] == "Debian")
   notify:
-    - 'enableApache2'
+    - 'Debian : Habilitando autoinicio do Apache2'
 
-- name: "Habilitando mods no apache2 - Family Debian"
+- name: "Debian : Habilitando os Módulos do Apache2"
   apache2_module:
     name: "{{ item }}"
   with_items:
@@ -25,13 +25,17 @@
     - ssl
   when: (ansible_facts['os_family'] == "Debian")
 
-- name: "Criando o Vhost do site - Family Debian"
+- name: "Debian : Criando o Vhost do site"
   template:
     src: templates/site.conf
     dest: /etc/apache2/sites-available/{{site_log}}.conf
   when: (ansible_facts['os_family'] == "Debian")
   notify:
-    - 'enableSiteApache2'
-    - 'disableSiteDefaultApache2'
-    - 'addInHostsFile'
-    - 'restartApache2'
+    - 'AnySO : Adicionando entrada do Vhost no arquivo Hosts'
+
+- name: 'Debian : Habilitando o Vhost do Site'
+  command: a2ensite {{site_log}}.conf
+  when: (ansible_facts['os_family'] == "Debian")
+  notify:
+    - 'Debian : Desabilitando o Vhost Default do Apache2'
+    - 'Debian : Reiniciando o serviço do Apache2'

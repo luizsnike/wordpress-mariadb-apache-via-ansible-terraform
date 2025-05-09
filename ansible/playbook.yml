@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+
+  roles:
+    - 1_python3
+    - 2_serversUtils
+    - 3_mariadb
+    - 4_apache2
+    - 5_php
+    - 6_wordpress

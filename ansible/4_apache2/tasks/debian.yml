@@ -1,0 +1,37 @@
+---
+# debian file for 4_apache2
+- name: "Instalando o Apache2 - Family Debian"
+  apt:
+    name:
+    - apache2
+    - libapache2-mod-fcgid
+    - libapache2-mod-security2
+    - libapache2-mod-evasive
+    - openssl
+    state: latest
+  when: (ansible_facts['os_family'] == "Debian")
+  notify:
+    - 'enableApache2'
+
+- name: "Habilitando mods no apache2 - Family Debian"
+  apache2_module:
+    name: "{{ item }}"
+  with_items:
+    - actions
+    - fcgid
+    - alias
+    - proxy_fcgi
+    - headers
+    - ssl
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: "Criando o Vhost do site - Family Debian"
+  template:
+    src: templates/site.conf
+    dest: /etc/apache2/sites-available/{{site_log}}.conf
+  when: (ansible_facts['os_family'] == "Debian")
+  notify:
+    - 'enableSiteApache2'
+    - 'disableSiteDefaultApache2'
+    - 'addInHostsFile'
+    - 'restartApache2'

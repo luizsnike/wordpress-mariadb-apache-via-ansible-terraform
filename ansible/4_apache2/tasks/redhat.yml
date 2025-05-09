@@ -1,0 +1,27 @@
+---
+# redhat file for 4_apache2
+- name: "Instala o Apache2 - Family RedHat"
+  yum:
+    name:
+    - httpd
+    - openssl
+    state: latest
+  when: (ansible_facts['os_family'] == "RedHat")
+  notify:
+    - 'enableHttpd'
+
+- name: "Criando o Diretório para o Vhost - Family RedHat"
+  file:
+    path: "/etc/httpd/vhost.d"
+    state: directory
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: "Criando o Vhost do site - Family RedHat"
+  template:
+    src: templates/site.conf
+    dest: /etc/httpd/vhost.d/{{site_log}}.conf
+  when: (ansible_facts['os_family'] == "RedHat")
+  notify:
+    - 'addInHostsFile'
+    - 'addInHttpdFile'
+    - 'RestartHttpd'

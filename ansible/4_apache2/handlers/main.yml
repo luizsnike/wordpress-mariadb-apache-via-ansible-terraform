@@ -1,0 +1,48 @@
+---
+# handlers file for 4_apache2
+
+#Any
+- name: 'addInHostsFile'
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ item }}"
+    create: yes
+  loop:
+    - "{{inventory_hostname}} {{ site_url }}"
+    - "{{inventory_hostname}} {{ site_domain }}"
+
+#Debian
+- name: 'enableApache2'
+  service:
+    name: apache2
+    enabled: yes
+
+- name: 'enableSiteApache2'
+  command: a2ensite {{site_log}}.conf
+
+- name: 'disableSiteDefaultApache2'
+  command: a2dissite 000-default.conf
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: 'restartApache2'
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+
+#RedHat
+- name: 'enableHttpd'
+  service:
+    name: httpd
+    enabled: yes
+
+- name: 'RestartHttpd'
+  service:
+    name: httpd
+    state: restarted
+
+- name: 'addInHttpdFile'
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: "Include vhost.d/*.conf"
+  when: (ansible_facts['os_family'] == "RedHat")

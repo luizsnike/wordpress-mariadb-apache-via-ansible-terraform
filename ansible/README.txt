@@ -45,3 +45,8 @@ ansible-playbook playbook1.yml
 #CRIANDO UMA ROLE
 ansible-galaxy init ServerUtils
 #serverTools é o nome da pasta que vai salvar os arquivos
+
+Fedora deve ter o pacote:
+sudo yum install python3-libdnf5
+
+verificar local de selvamento do wordpress

@@ -1,0 +1,54 @@
+---
+# tasks file for 6_wordpress
+
+- name: "Criando Pasta do Site"
+  file:
+    path: "{{ site_folder }}"
+    state: directory
+    mode: 0755
+
+- name: 'Baixando e Descompactado'
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: "{{ site_folder }}"
+    remote_src: yes
+  notify:
+    - 'SetPermissionWpRedHat'
+    - 'SetPermissionWpDebian'
+
+#- name: 'Download WordPress'
+#  get_url:
+#    url: https://wordpress.org/latest.tar.gz
+#    dest: /tmp/wordpress.tar.gz
+
+#- name: 'Descompactando Wordpress'
+#  unarchive:
+#    src: /tmp/wordpress.tar.gz
+#    dest: "{{ site_folder }}"
+#    remote_src: yes
+#  notify:
+#    - 'SetPermissionWpRedHat'
+#    - 'SetPermissionWpDebian'
+
+- name: "Copiando o WP-CONFIG"
+  copy:
+    src: "{{ site_folder }}/wordpress/wp-config-sample.php"
+    dest: "{{ site_folder }}/wordpress/wp-config.php"
+    remote_src: yes
+  become: yes
+
+- name: 'Configurando o WP-CONFIG com os dados do banco de dados'
+  replace:
+    path: "{{ site_folder }}/wordpress/wp-config.php"
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.value }}"
+    backup: yes
+  with_items:
+    - { regex: 'database_name_here', value: "{{ db_wp_name }}"}
+    - { regex: 'username_here', value: "{{ db_wp_username }}"}
+    - { regex: 'password_here', value: "{{ db_wp_password }}"}
+    - { regex: 'localhost', value: "{{ db_wp_host }}"}
+  become: yes
+
+- name: 'Restarting Server para Conclusão'
+  reboot:

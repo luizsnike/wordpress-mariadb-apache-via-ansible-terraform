@@ -1,7 +1,10 @@
 [webservers]
-192.168.15.201 hostname=srv-debian-01
+#192.168.15.201 hostname=srv-debian-01
 #192.168.15.202 hostname=srv-debian-02
-192.168.15.203 hostname=srv-fedora-03
+#192.168.15.203 hostname=srv-fedora-03
+192.168.15.210 hostname=srv-debian
+192.168.15.211 hostname=srv-fedora
+192.168.15.212 hostname=srv-ubuntu
 [ansibleServers]
 #192.168.15.200 hostname=srv-ansible
 [databases]

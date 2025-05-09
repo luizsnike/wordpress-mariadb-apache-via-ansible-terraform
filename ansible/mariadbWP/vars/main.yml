@@ -1,6 +1,0 @@
----
-# vars file for mariadbWP
-mysql_root_password: 'Password123'
-db_wp_name: 'db_wp_name'
-db_wp_username: 'db_wp_username'
-db_wp_password: 'db_wp_password'

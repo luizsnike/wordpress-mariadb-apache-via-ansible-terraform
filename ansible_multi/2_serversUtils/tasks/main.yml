@@ -1,0 +1,61 @@
+---
+# tasks file for 2_serversUtils
+- name: 'AnySO : Configurando o Hostname dos servidores'
+  hostname:
+    name: "{{ hostname }}"
+  notify:
+    - 'AnySO : Limpando arquivo  Hosts do SO'
+    - 'Debian : Modificando arquivo Hosts do SO'
+    - 'RedHat : Modificando arquivo Hosts do SO'
+
+- name: 'Debian : Instalando pacotes Uteis no servidor'
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - vim
+      - htop
+      - zip
+      - unzip
+      - wget
+      - curl
+      - nano
+    state: latest
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: 'RedHat : Instalando pacotes Uteis no servidor'
+  yum:
+    update_cache: yes
+    name:
+      - vim
+      - htop
+      - zip
+      - unzip
+      - wget
+      - curl
+      - nano
+    state: latest
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'RedHat : Liberando o Trafego HTTP no firewall do sistema'
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'RedHat : Liberando o Trafego HTTPS no firewall do sistema'
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'RedHat : Desabilitando o SELinux do sistema'
+  selinux:
+    state: disabled
+  when: (ansible_facts['os_family'] == "RedHat")
+
+- name: 'RedHat : Reiniciando para aplicar a alteração no SELinux'
+  reboot:
+  when: (ansible_facts['os_family'] == "RedHat")

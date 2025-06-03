@@ -13,7 +13,6 @@
     dest: "{{ site_folder }}"
     remote_src: yes
   notify:
-    - 'RedHat : Configurando permissões da pasta do site.'
     - 'Debian : Configurando permissões da pasta do site.'
 
 - name: "AnySO : Copiando o arquivo de configuração do Wordpress para o local correto"

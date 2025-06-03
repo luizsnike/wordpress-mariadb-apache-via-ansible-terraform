@@ -1,0 +1,40 @@
+---
+# tasks file for 5_php
+- name: "Debian : Instalando o PHP"
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - php
+      - php-fpm
+      - php-cli
+      - php-common
+      - php-curl
+      - php-mbstring
+      - php-mysql
+      - php-xml
+      - php-gd
+      - php-exif
+    state: latest
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: "RedHat : Instalando o PHP"
+  yum:
+    name:
+      - php
+      - php-cli
+      - php-fpm
+      - php-common
+      - php-mbstring
+      - php-curl
+      - php-gd
+      - php-mysqlnd
+      - php-json
+      - php-xml
+      - php-intl
+      - php-pecl-apcu
+      - php-opcache
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat")
+  notify:
+    - 'RedHat : Task PHP : Reiniciar o serviço do Httpd'

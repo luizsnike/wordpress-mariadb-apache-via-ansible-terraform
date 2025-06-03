@@ -28,22 +28,3 @@
     state: restarted
     enabled: yes
   when: (ansible_facts['os_family'] == "Debian")
-
-#RedHat
-- name: 'RedHat : Habilitando autoinicio do Httpd'
-  service:
-    name: httpd
-    enabled: yes
-  when: (ansible_facts['os_family'] == "RedHat")
-
-- name: 'RedHat : Reiniciando o serviço do Httpd'
-  service:
-    name: httpd
-    state: restarted
-  when: (ansible_facts['os_family'] == "RedHat")
-
-- name: 'RedHat : Habilitando Vhost na configuraçao do Httpd'
-  lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    line: "Include vhost.d/*.conf"
-  when: (ansible_facts['os_family'] == "RedHat")

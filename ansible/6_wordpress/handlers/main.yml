@@ -1,14 +1,5 @@
 ---
 # handlers file for 6_wordpress
-- name: 'RedHat : Configurando permissões da pasta do site.'
-  file:
-    path: "{{ site_folder }}/wordpress"
-    state: directory
-    owner: apache
-    group: apache
-    recurse: yes
-  when: (ansible_facts['os_family'] == "RedHat")
-
 - name: 'Debian : Configurando permissões da pasta do site.'
   file:
     path: "{{ site_folder }}/wordpress"

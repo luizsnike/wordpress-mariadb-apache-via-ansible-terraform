@@ -1,0 +1,181 @@
+luiz in wordpress-mariadb-apache-via-ansible-terraform/terraform on  main [✘!+?] 
+➜  ./_criar.sh 
+Executando o Terraform para criar o ambiente e exibindo o tempo de execução
+Seg  2 Jun 2025 19:33:12 -03
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_instance.app_server will be created
+  + resource "aws_instance" "app_server" {
+      + ami                                  = "ami-075686beab831bb7f"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = (known after apply)
+      + availability_zone                    = (known after apply)
+      + cpu_core_count                       = (known after apply)
+      + cpu_threads_per_core                 = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + enable_primary_ipv6                  = (known after apply)
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t2.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = "chavessh"
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = [
+          + "sg_ec2_wp_iac",
+        ]
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "Name" = "Wordpress Terraform Ansible"
+        }
+      + tags_all                             = {
+          + "Name"       = "Wordpress Terraform Ansible"
+          + "managed-by" = "terraform"
+          + "owner"      = "Luiz Ribeiro"
+          + "project"    = "projeto-wp-iac"
+        }
+      + tenancy                              = (known after apply)
+      + user_data                            = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+
+      + capacity_reservation_specification (known after apply)
+
+      + cpu_options (known after apply)
+
+      + ebs_block_device (known after apply)
+
+      + enclave_options (known after apply)
+
+      + ephemeral_block_device (known after apply)
+
+      + instance_market_options (known after apply)
+
+      + maintenance_options (known after apply)
+
+      + metadata_options (known after apply)
+
+      + network_interface (known after apply)
+
+      + private_dns_name_options (known after apply)
+
+      + root_block_device (known after apply)
+    }
+
+  # aws_key_pair.KeySSH will be created
+  + resource "aws_key_pair" "KeySSH" {
+      + arn             = (known after apply)
+      + fingerprint     = (known after apply)
+      + id              = (known after apply)
+      + key_name        = "chavessh"
+      + key_name_prefix = (known after apply)
+      + key_pair_id     = (known after apply)
+      + key_type        = (known after apply)
+      + public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDAGQbfXRp+fkyvFaJAgU+CyLoyguZpkN9sxBJR7Cvv4Jdqa9ZfxVQG+9Ai1/v9tK4emViD315Sh4OYmowams1blPFjZgvX3b1eStkUUUZm5HfJKgD8SlKbPlXWshDeXzCjSivVEghR2jDze+ve6vW5zOgHAiNss2qJCH6BrEXA1reVyLLpWIUcjogqEzUSqB6n+/ORi+KJ/q7lo3Qh7M2wv0Ft3Ktci/iUKgzcWuGEOpEDGag/AItCSsQV9FebGu9hFk0L1kqvILnxCNMsA3iu1QmporPyIDLXOf3oT44AWQFWwYMbM8y56I3GMghfvIHUVU9UznouQlAtfcYA4QSBDoO2HCPS5YrIPlfs/klCZ7aC3y243XZfJ+Vd7XnFOIUl/V2MOSb/XRvqHH4gEezJX+X/ecCr+KG9gNYJ4pSdHNw4R8Jy0XcCYi+XrrKiwCeN1YwWtkKeu8bwdXlQgfe3x542OVuMr+Y0ylf0WWrP1C/4Ff3kQvq8lK5K0FQcdqdM+O1CaH2OiXpBA/hBBh02rNxvEcViXVgZj23n17Vzg5fEjX9cQrLEorjCaz6++Ikyitx4ldfy9wNlkq0CjQyVJV2IQsEc09wCeex9T9ERiMpJTfduCQ6oCbfLWdmS94O8qt0uleIQW2mLnBmMBCmbI0rfplIBc8DsnMM63ja5bw== luiz@MBA.local"
+      + tags_all        = {
+          + "managed-by" = "terraform"
+          + "owner"      = "Luiz Ribeiro"
+          + "project"    = "projeto-wp-iac"
+        }
+    }
+
+  # aws_security_group.sg_ec2_wp_iac will be created
+  + resource "aws_security_group" "sg_ec2_wp_iac" {
+      + arn                    = (known after apply)
+      + description            = "Security Group WordPress"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + from_port        = 0
+              + ipv6_cidr_blocks = [
+                  + "::/0",
+                ]
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + from_port        = 0
+              + ipv6_cidr_blocks = [
+                  + "::/0",
+                ]
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ]
+      + name                   = "sg_ec2_wp_iac"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "sg_ec2_wp_iac"
+        }
+      + tags_all               = {
+          + "Name"       = "sg_ec2_wp_iac"
+          + "managed-by" = "terraform"
+          + "owner"      = "Luiz Ribeiro"
+          + "project"    = "projeto-wp-iac"
+        }
+      + vpc_id                 = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + ip_publico = (known after apply)
+aws_key_pair.KeySSH: Creating...
+aws_security_group.sg_ec2_wp_iac: Creating...
+aws_key_pair.KeySSH: Creation complete after 1s [id=chavessh]
+aws_security_group.sg_ec2_wp_iac: Creation complete after 5s [id=sg-04564f5e5f11a3aff]
+aws_instance.app_server: Creating...
+aws_instance.app_server: Still creating... [00m10s elapsed]
+aws_instance.app_server: Creation complete after 15s [id=i-0fa92eb5e6785f8fd]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ip_publico = "34.215.251.2"
+terraform apply -auto-approve  2,20s user 0,51s system 11% cpu 23,681 total
+Seg  2 Jun 2025 19:33:36 -03
+luiz in wordpress-mariadb-apache-via-ansible-terraform/terraform on  main [✘!+?] took 23,9s 

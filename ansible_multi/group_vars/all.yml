@@ -1,0 +1,13 @@
+---
+  ansible_sudo_pass: '5n1k3'
+  site_url: "www.meusite.com.br"
+  site_domain: "meusite.com.br"
+  site_log: "meusite"
+  site_folder: "/var/www/meusite"
+  php_version_debian: "8.2"
+  php_version_redhat: "8.4"
+  mysql_root_password: 'Password123'
+  db_wp_name: 'db_wp_name'
+  db_wp_username: 'db_wp_username'
+  db_wp_password: 'db_wp_password'
+  db_wp_host: 'localhost'

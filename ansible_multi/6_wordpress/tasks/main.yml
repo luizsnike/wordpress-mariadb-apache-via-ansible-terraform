@@ -1,0 +1,39 @@
+---
+# tasks file for 6_wordpress
+
+- name: "AnySO : Criando a pasta para o site"
+  file:
+    path: "{{ site_folder }}"
+    state: directory
+    mode: 0755
+
+- name: 'AnySO : Baixando e Descompactando o Wordpress na pasta do site'
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: "{{ site_folder }}"
+    remote_src: yes
+  notify:
+    - 'RedHat : Configurando permissões da pasta do site.'
+    - 'Debian : Configurando permissões da pasta do site.'
+
+- name: "AnySO : Copiando o arquivo de configuração do Wordpress para o local correto"
+  copy:
+    src: "{{ site_folder }}/wordpress/wp-config-sample.php"
+    dest: "{{ site_folder }}/wordpress/wp-config.php"
+    remote_src: yes
+  become: yes
+
+- name: "AnySO : Alterando o arquivo de configuração do Wordpress com os valores corretos"
+  replace:
+    path: "{{ site_folder }}/wordpress/wp-config.php"
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.value }}"
+    backup: yes
+  with_items:
+    - { regex: 'database_name_here', value: "{{ db_wp_name }}"}
+    - { regex: 'username_here', value: "{{ db_wp_username }}"}
+    - { regex: 'password_here', value: "{{ db_wp_password }}"}
+    - { regex: 'localhost', value: "{{ db_wp_host }}"}
+  become: yes
+  notify:
+    - 'AnySO - Reinicialização Final'

@@ -1,0 +1,144 @@
+### logando com super usuario para fazer as alteracoes
+$sudo su
+
+### salvando variaveis para usuarios
+$ echo export my_hostname=\"meuserver\" >> /etc/profile
+$ echo export site_url=\"www.meusite.com.br\" >> /etc/profile
+$ echo export site_domain=\"meusite.com.br\" >> /etc/profile
+$ echo export site_log=\"meusite\" >> /etc/profile
+$ echo export site_folder=\"meusite\" >> /etc/profile
+$ echo export db_wp_name=\"db_wp_name\" >> /etc/profile
+$ echo export db_wp_username=\"db_wp_username\" >> /etc/profile
+$ echo export db_wp_password=\"db_wp_password\" >> /etc/profile
+$ echo export db_wp_host=\"localhost\" >> /etc/profile
+
+### salvando variaveis para root
+$ echo export my_hostname=\"meuserver\" >> ~/.bashrc
+$ echo export site_url=\"www.meusite.com.br\" >> ~/.bashrc
+$ echo export site_domain=\"meusite.com.br\" >> ~/.bashrc
+$ echo export site_log=\"meusite\" >> ~/.bashrc
+$ echo export site_folder=\"meusite\" >> ~/.bashrc
+$ echo export db_wp_name=\"db_wp_name\" >> ~/.bashrc
+$ echo export db_wp_username=\"db_wp_username\" >> ~/.bashrc
+$ echo export db_wp_password=\"db_wp_password\" >> ~/.bashrc
+$ echo export db_wp_host=\"localhost\" >> ~/.bashrc
+
+### atualizando o prompt para pegar as variaveis
+$ source ~/.profile
+
+### 0_update
+### atualizando a lista de pacotes do sistema operacional
+$ apt update
+
+### 1_python
+### instalando python e componentes
+$ apt install -y python3 python3-pip python3-dev python3-pymysql python3-mysqldb default-libmysqlclient-dev build-essential pkg-config
+
+### 2_serversUtils
+### setando o hostname do servidor
+$ hostnamectl set-hostname $my_hostname
+
+### limpar arquivo Hosts /etc/hosts para colocar os valores novos
+$ > /etc/hosts
+
+### inserindo os valores corretos no hosts do servidor
+$ echo "127.0.0.1  localhost $my_hostname" >> /etc/hosts
+$ echo "::1  localhost $my_hostname ip6-localhost ip6-loopback" >> /etc/hosts
+$ echo "ff02::1 ip6-allnodes" >> /etc/hosts
+$ echo "ff02::2 ip6-allrouters" >> /etc/hosts
+
+### instalando aplicacoes uteis para manutencao do servidor
+$ apt install -y vim htop zip unzip wget curl nano
+
+### 3_mariadb
+### instalando o mariadb server
+$ apt install -y mariadb-server
+
+### iniciando o mariadb server
+$ systemctl start mariadb
+
+### habilitando o autoinicio do mariadb server
+$ systemctl enable mariadb
+
+### configurando o mariadb server
+$ mysql_secure_installation
+##Enter current password for root (enter for none): [Enter]
+##Switch to unix_socket authentication [Y/n] N [Enter]
+##Change the root password? [Y/n] N [Enter]
+##Remove anonymous users? [Y/n] Y [Enter]
+##Disallow root login remotely? [Y/n] Y [Enter]
+##Remove test database and access to it? [Y/n] Y [Enter]
+##Reload privilege tables now? [Y/n] Y [Enter]
+
+### configurando o banco, usuario e permissoes no mariadb server
+$ mariadb -u root
+##CREATE DATABASE db_wp_name;
+##CREATE USER 'db_wp_username'@'localhost' IDENTIFIED BY 'db_wp_password';
+##GRANT ALL PRIVILEGES ON db_wp_name.* TO 'db_wp_username'@'localhost';
+##FLUSH PRIVILEGES;
+##EXIT;
+
+### 4_apache2
+### instalando o apache2 server
+$ apt install -y apache2 libapache2-mod-fcgid libapache2-mod-security2 libapache2-mod-evasive openssl
+
+### habilitando o autoinicio do apache2 server
+$ systemctl enable apache2
+
+### configurando o apache2 server
+$ a2enmod actions fcgid alias proxy_fcgi headers ssl
+
+### reiniciando o apache2 server
+$ systemctl restart apache2
+
+### criando o vhost do apache2 server
+$ nano /etc/apache2/sites-available/meusite.conf
+##copiar conteudo do arquivo site.conf de template para este arquivo e salvar
+
+### trocando as variaveis do arquivo de vhost
+$ sed -i "s/{{ site_domain }}/$site_domain/g" /etc/apache2/sites-available/meusite.conf
+$ sed -i "s/{{ site_url }}/$site_url/g" /etc/apache2/sites-available/meusite.conf
+$ sed -i "s/{{ site_folder }}/$site_folder/g" /etc/apache2/sites-available/meusite.conf
+$ sed -i "s/{{ site_log }}/$site_log/g" /etc/apache2/sites-available/meusite.conf
+
+### adicionando valores do vhost ao arquivo de hosts
+$ echo "$my_hostname  $site_domain" >> /etc/hosts
+$ echo "$my_hostname  $site_url" >> /etc/hosts
+
+### habilitando vhost no apache2 server
+$ a2ensite $site_log.conf
+
+### desabilitando o vhost default mno apache2 server
+$ a2dissite 000-default.conf
+
+### 5_php
+### instalando o php e modulos dele para o apache2 server
+$ apt install -y php php-fpm php-cli php-common php-curl php-mbstring php-mysql php-xml php-gd php-exif
+
+### reiniciando serviço do apache2 server para que ele carregue o modulo do php
+$ systemctl restart apache2
+
+### 6_wordpress
+### criando a pasta do site wordpress
+$ mkdir /var/www/$site_folder
+
+### baixando, descompactando e removendo o arquivo do wordpress
+$ cd /var/www/$site_folder
+$ wget https://wordpress.org/latest.tar.gz
+$ tar -xzf *.tar.gz
+$ rm *.tar.gz
+
+### configurando a permissao da pasta do site wordpress
+$ chown -R www-data:www-data /var/www/$site_folder
+
+### copiando o arquivo sample de configuracoes do wordpress para o lugar correto
+$ cp /var/www/$site_folder/wordpress/wp-config-sample.php /var/www/$site_folder/wordpress/wp-config.php
+
+### alterando o aquivo de configuração do wordpress com os valores do banco de dados
+$ sed -i "s/database_name_here/$db_wp_name/g" /var/www/$site_folder/wordpress/wp-config.php
+$ sed -i "s/username_here/$db_wp_username/g" /var/www/$site_folder/wordpress/wp-config.php
+$ sed -i "s/password_here/$db_wp_password/g" /var/www/$site_folder/wordpress/wp-config.php
+$ sed -i "s/localhost/$db_wp_host/g" /var/www/$site_folder/wordpress/wp-config.php
+
+### reiniciando o servidor para ver se tudo está ok e sobe automaticamente
+$ reboot

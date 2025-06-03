@@ -4,7 +4,3 @@
 - name: "Debian : Incluindo processo de instalação do Apache2"
   include_tasks: debian.yml
   when: (ansible_facts['os_family'] == "Debian")
-
-- name: "RedHat : Incluindo processo de instalação do Httpd"
-  include_tasks: redhat.yml
-  when: (ansible_facts['os_family'] == "RedHat")

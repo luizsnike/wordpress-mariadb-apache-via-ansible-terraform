@@ -1,0 +1,28 @@
+---
+# handlers file for 2_serversUtils
+
+- name: 'AnySO : Limpando arquivo  Hosts do SO'
+  lineinfile:
+    path: '/etc/hosts'
+    regexp: ^.*$
+    state: absent
+
+- name: 'Debian : Modificando arquivo Hosts do SO'
+  lineinfile:
+    path: '/etc/hosts'
+    line: "{{ item }}"
+  with_items:
+    - "127.0.0.1  localhost {{ hostname }}"
+    - "::1  localhost {{ hostname }} ip6-localhost ip6-loopback"
+    - "ff02::1 ip6-allnodes"
+    - "ff02::2 ip6-allrouters"
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: 'RedHat : Modificando arquivo Hosts do SO'
+  lineinfile:
+    path: '/etc/hosts'
+    line: "{{ item }}"
+  with_items:
+    - "127.0.0.1  localhost {{ hostname }} localhost.localdomain localhost4 localhost4.localdomain4"
+    - "::1  localhost {{ hostname }} localhost.localdomain localhost6 localhost6.localdomain6"
+  when: (ansible_facts['os_family'] == "RedHat")

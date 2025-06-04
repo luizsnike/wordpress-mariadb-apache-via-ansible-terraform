@@ -1,0 +1,118 @@
+luiz in wordpress-mariadb-apache-via-ansible-terraform/ansible on  main [!?] 
+➜  ./executa.sh 
+Executando o Ansible e exibindo o tempo de execução
+Tue Jun  3 20:06:34 -03 2025
+
+PLAY [all] ******************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************
+[WARNING]: Platform linux on host 35.167.219.253 is using the discovered Python interpreter at /usr/bin/python3.12, but
+future installation of another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [35.167.219.253]
+
+TASK [1_python3 : Debian : Instalando Python3 e dependências] ***************************************************************
+ok: [35.167.219.253] => (item=python3)
+changed: [35.167.219.253] => (item=python3-dev)
+changed: [35.167.219.253] => (item=python3-pip)
+changed: [35.167.219.253] => (item=python3-pymysql)
+changed: [35.167.219.253] => (item=python3-mysqldb)
+changed: [35.167.219.253] => (item=default-libmysqlclient-dev)
+ok: [35.167.219.253] => (item=build-essential)
+changed: [35.167.219.253] => (item=pkg-config)
+
+TASK [2_serversUtils : AnySO : Configurando o Hostname dos servidores] ******************************************************
+changed: [35.167.219.253]
+
+TASK [2_serversUtils : Debian : Instalando pacotes Uteis no servidor] *******************************************************
+changed: [35.167.219.253]
+
+TASK [3_mariadb : Debian : Instalando o MariaDb Server] *********************************************************************
+changed: [35.167.219.253]
+
+TASK [3_mariadb : AnySO : Iniciando o MariaDb Server] ***********************************************************************
+ok: [35.167.219.253]
+
+TASK [3_mariadb : Debian : Criando um Banco de Dados para ser utilizado pelo WordPress] *************************************
+changed: [35.167.219.253]
+
+TASK [3_mariadb : Debian : Criando o Usuário e seus Privilégios no Banco de Dados] ******************************************
+[WARNING]: Option column_case_sensitive is not provided. The default is now false, so the column's name will be uppercased.
+The default will be changed to true in community.mysql 4.0.0.
+changed: [35.167.219.253]
+
+TASK [3_mariadb : Debian : Removendo Usuários Anonymous do Banco de Dados] **************************************************
+ok: [35.167.219.253]
+
+TASK [4_apache2 : Debian : Incluindo processo de instalação do Apache2] *****************************************************
+included: /Users/luiz/PhpstormProjects/ANSIBLE_TCC/wordpress-mariadb-apache-via-ansible-terraform/ansible/4_apache2/tasks/debian.yml for 35.167.219.253
+
+TASK [4_apache2 : Debian : Instalando o Apache2] ****************************************************************************
+changed: [35.167.219.253]
+
+TASK [4_apache2 : Debian : Habilitando os Módulos do Apache2] ***************************************************************
+changed: [35.167.219.253] => (item=actions)
+ok: [35.167.219.253] => (item=fcgid)
+ok: [35.167.219.253] => (item=alias)
+changed: [35.167.219.253] => (item=proxy_fcgi)
+changed: [35.167.219.253] => (item=headers)
+changed: [35.167.219.253] => (item=ssl)
+
+TASK [4_apache2 : Debian : Criando o Vhost do site] *************************************************************************
+changed: [35.167.219.253]
+
+TASK [4_apache2 : Debian : Habilitando o Vhost do Site] *********************************************************************
+changed: [35.167.219.253]
+
+TASK [5_php : Debian : Instalando o PHP] ************************************************************************************
+changed: [35.167.219.253]
+
+TASK [6_wordpress : AnySO : Criando a pasta para o site] ********************************************************************
+changed: [35.167.219.253]
+
+TASK [6_wordpress : AnySO : Baixando e Descompactando o Wordpress na pasta do site] *****************************************
+changed: [35.167.219.253]
+
+TASK [6_wordpress : AnySO : Copiando o arquivo de configuração do Wordpress para o local correto] ***************************
+changed: [35.167.219.253]
+
+TASK [6_wordpress : AnySO : Alterando o arquivo de configuração do Wordpress com os valores corretos] ***********************
+changed: [35.167.219.253] => (item={'regex': 'database_name_here', 'value': 'db_wp_name'})
+changed: [35.167.219.253] => (item={'regex': 'username_here', 'value': 'db_wp_username'})
+changed: [35.167.219.253] => (item={'regex': 'password_here', 'value': 'db_wp_password'})
+ok: [35.167.219.253] => (item={'regex': 'localhost', 'value': 'localhost'})
+
+RUNNING HANDLER [2_serversUtils : AnySO : Limpando arquivo  Hosts do SO] ****************************************************
+changed: [35.167.219.253]
+
+RUNNING HANDLER [2_serversUtils : Debian : Modificando arquivo Hosts do SO] *************************************************
+changed: [35.167.219.253] => (item=127.0.0.1  localhost srv-wp-01)
+changed: [35.167.219.253] => (item=::1  localhost srv-wp-01 ip6-localhost ip6-loopback)
+changed: [35.167.219.253] => (item=ff02::1 ip6-allnodes)
+changed: [35.167.219.253] => (item=ff02::2 ip6-allrouters)
+
+RUNNING HANDLER [4_apache2 : AnySO : Adicionando entrada do Vhost no arquivo Hosts] *****************************************
+changed: [35.167.219.253] => (item=35.167.219.253 www.meusite.com.br)
+changed: [35.167.219.253] => (item=35.167.219.253 meusite.com.br)
+
+RUNNING HANDLER [4_apache2 : Debian : Habilitando autoinicio do Apache2] ****************************************************
+ok: [35.167.219.253]
+
+RUNNING HANDLER [4_apache2 : Debian : Desabilitando o Vhost Default do Apache2] *********************************************
+changed: [35.167.219.253]
+
+RUNNING HANDLER [4_apache2 : Debian : Reiniciando o serviço do Apache2] *****************************************************
+changed: [35.167.219.253]
+
+RUNNING HANDLER [6_wordpress : Debian : Configurando permissões da pasta do site.] ******************************************
+changed: [35.167.219.253]
+
+RUNNING HANDLER [6_wordpress : AnySO - Reinicialização Final] ***************************************************************
+changed: [35.167.219.253]
+
+PLAY RECAP ******************************************************************************************************************
+35.167.219.253             : ok=27   changed=22   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+ansible-playbook playbook.yml  10.77s user 9.32s system 3% cpu 8:33.19 total
+Tue Jun  3 20:15:07 -03 2025
+luiz in wordpress-mariadb-apache-via-ansible-terraform/ansible on  main [!?] took 8m 33.5s 

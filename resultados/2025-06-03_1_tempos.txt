@@ -1,0 +1,27 @@
+IAC
+
+## terraform
+inicio		= Tue Jun  3 20:03:52 -03 2025
+fim			= Tue Jun  3 20:04:15 -03 2025
+diferenca	= 0.3833 minutos ou 23 segundos
+
+## ansible
+inicio		= Tue Jun  3 20:06:34 -03 2025
+fim			= Tue Jun  3 20:15:07 -03 2025
+diferenca	= 8.55 minutos ou 513 segundos
+
+MANUAL
+
+## provisionamento
+inicio		= Tue Jun  3 20:26:10 -03 2025
+fim			= Tue Jun  3 20:29:56 -03 2025
+diferenca	= 3.767 minutos ou 226 segundos
+
+## configuracao
+inicio		= Tue Jun  3 23:31:15 -00 2025
+fim			= Tue Jun  3 23:44:52 -00 2025
+diferenca	= 13.617 minutos ou 817 segundos
+
+
+IAC 23 + 513 = 536
+MANUAL 226 + 817 =  1043

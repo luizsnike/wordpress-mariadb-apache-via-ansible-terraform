@@ -1,0 +1,216 @@
+luiz in wordpress-mariadb-apache-via-ansible-terraform/terraform on  main [!?] 
+➜  ./_destruir.sh 
+Executando o Terraform para criar o ambiente e exibindo o tempo de execução
+Tue Jun  3 20:17:09 -03 2025
+aws_key_pair.KeySSH: Refreshing state... [id=chavessh]
+aws_security_group.sg_ec2_wp_iac: Refreshing state... [id=sg-003263ee9d2f3a7dc]
+aws_instance.app_server: Refreshing state... [id=i-0be3cc0da6191ba4b]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.app_server will be destroyed
+  - resource "aws_instance" "app_server" {
+      - ami                                  = "ami-075686beab831bb7f" -> null
+      - arn                                  = "arn:aws:ec2:us-west-2:157996939715:instance/i-0be3cc0da6191ba4b" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "us-west-2a" -> null
+      - cpu_core_count                       = 1 -> null
+      - cpu_threads_per_core                 = 1 -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-0be3cc0da6191ba4b" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "chavessh" -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-0aa3d6c2dce23f0fc" -> null
+      - private_dns                          = "ip-172-31-43-29.us-west-2.compute.internal" -> null
+      - private_ip                           = "172.31.43.29" -> null
+      - public_dns                           = "ec2-35-167-219-253.us-west-2.compute.amazonaws.com" -> null
+      - public_ip                            = "35.167.219.253" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [
+          - "sg_ec2_wp_iac",
+        ] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-390bec73" -> null
+      - tags                                 = {
+          - "Name" = "Wordpress Terraform Ansible"
+        } -> null
+      - tags_all                             = {
+          - "Name"       = "Wordpress Terraform Ansible"
+          - "managed-by" = "terraform"
+          - "owner"      = "Luiz Ribeiro"
+          - "project"    = "projeto-wp-iac"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-003263ee9d2f3a7dc",
+        ] -> null
+        # (7 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count       = 1 -> null
+          - threads_per_core = 1 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 2 -> null
+          - http_tokens                 = "required" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/sda1" -> null
+          - encrypted             = false -> null
+          - iops                  = 3000 -> null
+          - tags                  = {
+              - "managed-by" = "terraform"
+              - "owner"      = "Luiz Ribeiro"
+              - "project"    = "projeto-wp-iac"
+            } -> null
+          - tags_all              = {
+              - "managed-by" = "terraform"
+              - "owner"      = "Luiz Ribeiro"
+              - "project"    = "projeto-wp-iac"
+            } -> null
+          - throughput            = 125 -> null
+          - volume_id             = "vol-0ff945cbe7e3dd32e" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp3" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_key_pair.KeySSH will be destroyed
+  - resource "aws_key_pair" "KeySSH" {
+      - arn             = "arn:aws:ec2:us-west-2:157996939715:key-pair/chavessh" -> null
+      - fingerprint     = "e0:2b:bf:10:ce:15:29:a8:0e:a7:c1:92:3e:c2:c9:fb" -> null
+      - id              = "chavessh" -> null
+      - key_name        = "chavessh" -> null
+      - key_pair_id     = "key-0bf2017db8efb6988" -> null
+      - key_type        = "rsa" -> null
+      - public_key      = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDAGQbfXRp+fkyvFaJAgU+CyLoyguZpkN9sxBJR7Cvv4Jdqa9ZfxVQG+9Ai1/v9tK4emViD315Sh4OYmowams1blPFjZgvX3b1eStkUUUZm5HfJKgD8SlKbPlXWshDeXzCjSivVEghR2jDze+ve6vW5zOgHAiNss2qJCH6BrEXA1reVyLLpWIUcjogqEzUSqB6n+/ORi+KJ/q7lo3Qh7M2wv0Ft3Ktci/iUKgzcWuGEOpEDGag/AItCSsQV9FebGu9hFk0L1kqvILnxCNMsA3iu1QmporPyIDLXOf3oT44AWQFWwYMbM8y56I3GMghfvIHUVU9UznouQlAtfcYA4QSBDoO2HCPS5YrIPlfs/klCZ7aC3y243XZfJ+Vd7XnFOIUl/V2MOSb/XRvqHH4gEezJX+X/ecCr+KG9gNYJ4pSdHNw4R8Jy0XcCYi+XrrKiwCeN1YwWtkKeu8bwdXlQgfe3x542OVuMr+Y0ylf0WWrP1C/4Ff3kQvq8lK5K0FQcdqdM+O1CaH2OiXpBA/hBBh02rNxvEcViXVgZj23n17Vzg5fEjX9cQrLEorjCaz6++Ikyitx4ldfy9wNlkq0CjQyVJV2IQsEc09wCeex9T9ERiMpJTfduCQ6oCbfLWdmS94O8qt0uleIQW2mLnBmMBCmbI0rfplIBc8DsnMM63ja5bw== luiz@MBA.local" -> null
+      - tags            = {} -> null
+      - tags_all        = {
+          - "managed-by" = "terraform"
+          - "owner"      = "Luiz Ribeiro"
+          - "project"    = "projeto-wp-iac"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_security_group.sg_ec2_wp_iac will be destroyed
+  - resource "aws_security_group" "sg_ec2_wp_iac" {
+      - arn                    = "arn:aws:ec2:us-west-2:157996939715:security-group/sg-003263ee9d2f3a7dc" -> null
+      - description            = "Security Group WordPress" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = [
+                  - "::/0",
+                ]
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-003263ee9d2f3a7dc" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = [
+                  - "::/0",
+                ]
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - name                   = "sg_ec2_wp_iac" -> null
+      - owner_id               = "157996939715" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Name" = "sg_ec2_wp_iac"
+        } -> null
+      - tags_all               = {
+          - "Name"       = "sg_ec2_wp_iac"
+          - "managed-by" = "terraform"
+          - "owner"      = "Luiz Ribeiro"
+          - "project"    = "projeto-wp-iac"
+        } -> null
+      - vpc_id                 = "vpc-83660efb" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 0 to add, 0 to change, 3 to destroy.
+
+Changes to Outputs:
+  - ip_publico = "35.167.219.253" -> null
+aws_key_pair.KeySSH: Destroying... [id=chavessh]
+aws_instance.app_server: Destroying... [id=i-0be3cc0da6191ba4b]
+aws_key_pair.KeySSH: Destruction complete after 1s
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 00m10s elapsed]
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 00m20s elapsed]
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 00m30s elapsed]
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 00m40s elapsed]
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 00m50s elapsed]
+aws_instance.app_server: Still destroying... [id=i-0be3cc0da6191ba4b, 01m00s elapsed]
+aws_instance.app_server: Destruction complete after 1m3s
+aws_security_group.sg_ec2_wp_iac: Destroying... [id=sg-003263ee9d2f3a7dc]
+aws_security_group.sg_ec2_wp_iac: Destruction complete after 1s
+
+Destroy complete! Resources: 3 destroyed.
+terraform destroy -auto-approve  2.48s user 0.45s system 3% cpu 1:13.23 total
+Tue Jun  3 20:18:22 -03 2025
+luiz in wordpress-mariadb-apache-via-ansible-terraform/terraform on  main [!?] took 1m 13.3s 
